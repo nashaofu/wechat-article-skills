@@ -1,0 +1,58 @@
+{
+  "name": "wechat-article",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "wechat-article": "./dist/index.js"
+  },
+  "keywords": [
+    "wechat",
+    "article",
+    "skills"
+  ],
+  "author": "nashaofu",
+  "files": [
+    "dist",
+    "schemas",
+    "CLI.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=23"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nashaofu/wechat-article-skills.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nashaofu/wechat-article-skills/issues"
+  },
+  "homepage": "https://github.com/nashaofu/wechat-article-skills#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "prepack": "npm run clean && npm run check && npm run build",
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc --noEmit && biome check",
+    "check:fix": "biome check --write",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.7.3",
+    "atomically": "^2.1.1",
+    "axios": "^1.20.0",
+    "lodash-es": "^4.18.1",
+    "parse5": "^8.0.1",
+    "yargs": "^18.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^26.6.5",
+    "@types/yargs": "^17.0.35",
+    "rimraf": "^6.1.3",
+    "typescript": "^7.0.2"
+  }
+}

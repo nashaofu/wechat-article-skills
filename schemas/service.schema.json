@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/nashaofu/wechat-article-skills/master/schemas/service.schema.json",
+  "title": "WeChat article service state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "images"
+  ],
+  "properties": {
+    "account_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "$schema": {
+      "const": "https://raw.githubusercontent.com/nashaofu/wechat-article-skills/master/schemas/service.schema.json"
+    },
+    "cover": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sha256",
+        "path",
+        "status"
+      ],
+      "properties": {
+        "sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "status": {
+          "enum": [
+            "uploading",
+            "uploaded",
+            "unknown"
+          ]
+        },
+        "media_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "uploaded"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "media_id"
+            ]
+          }
+        }
+      ]
+    },
+    "images": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sha256",
+          "path",
+          "status"
+        ],
+        "properties": {
+          "sha256": {
+            "$ref": "#/$defs/hash"
+          },
+          "path": {
+            "$ref": "#/$defs/relativePath"
+          },
+          "status": {
+            "enum": [
+              "uploading",
+              "uploaded",
+              "unknown"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "uploaded"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "url"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "draft_media_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "draft_status": {
+      "enum": [
+        "submitting",
+        "saved",
+        "failed",
+        "unknown"
+      ]
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|[/\\\\])\\.\\.(?:[/\\\\]|$)).+$"
+    }
+  }
+}

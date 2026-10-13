@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/nashaofu/wechat-article-skills/master/schemas/article.schema.json",
+  "title": "WeChat article manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "title",
+    "author",
+    "digest",
+    "content_source_url",
+    "markdown",
+    "html",
+    "cover",
+    "images"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://raw.githubusercontent.com/nashaofu/wechat-article-skills/master/schemas/article.schema.json"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "content_source_url": {
+      "anyOf": [
+        {
+          "const": ""
+        },
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^[hH][tT][tT][pP][sS]://[^/?#\\s]+(?:[/?#][^\\s]*)?$"
+        }
+      ]
+    },
+    "markdown": {
+      "$ref": "#/$defs/relativePath"
+    },
+    "html": {
+      "$ref": "#/$defs/relativePath"
+    },
+    "cover": {
+      "$ref": "#/$defs/relativePath"
+    },
+    "images": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/relativePath"
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|[/\\\\])\\.\\.(?:[/\\\\]|$)).+$"
+    }
+  }
+}
